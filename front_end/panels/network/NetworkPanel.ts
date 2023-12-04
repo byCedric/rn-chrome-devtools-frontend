@@ -415,32 +415,34 @@ export class NetworkPanel extends UI.Panel.Panel implements UI.ContextMenu.Provi
     this.panelToolbar.appendToolbarItem(new UI.Toolbar.ToolbarSettingCheckbox(
         this.preserveLogSetting, i18nString(UIStrings.doNotClearLogOnPageReload), i18nString(UIStrings.preserveLog)));
 
-    this.panelToolbar.appendSeparator();
-    const disableCacheCheckbox = new UI.Toolbar.ToolbarSettingCheckbox(
-        Common.Settings.Settings.instance().moduleSetting('cacheDisabled'),
-        i18nString(UIStrings.disableCacheWhileDevtoolsIsOpen), i18nString(UIStrings.disableCache));
-    this.panelToolbar.appendToolbarItem(disableCacheCheckbox);
+    // NOTE(bycedric): disabled due to missing native implementation
 
-    this.panelToolbar.appendToolbarItem(this.throttlingSelect);
+    // this.panelToolbar.appendSeparator();
+    // const disableCacheCheckbox = new UI.Toolbar.ToolbarSettingCheckbox(
+    //     Common.Settings.Settings.instance().moduleSetting('cacheDisabled'),
+    //     i18nString(UIStrings.disableCacheWhileDevtoolsIsOpen), i18nString(UIStrings.disableCache));
+    // this.panelToolbar.appendToolbarItem(disableCacheCheckbox);
 
-    const networkConditionsIcon = new IconButton.Icon.Icon();
-    networkConditionsIcon.data = {
-      iconName: 'network-settings',
-      color: 'var(--icon-default)',
-      width: '20px',
-      height: '20px',
-    };
-    const networkConditionsButton =
-        new UI.Toolbar.ToolbarButton(i18nString(UIStrings.moreNetworkConditions), networkConditionsIcon);
-    networkConditionsButton.addEventListener(UI.Toolbar.ToolbarButton.Events.Click, () => {
-      void UI.ViewManager.ViewManager.instance().showView('network.config');
-    }, this);
-    this.panelToolbar.appendToolbarItem(networkConditionsButton);
+    // this.panelToolbar.appendToolbarItem(this.throttlingSelect);
 
-    this.rightToolbar.appendToolbarItem(new UI.Toolbar.ToolbarItem(this.progressBarContainer));
-    this.rightToolbar.appendSeparator();
-    this.rightToolbar.appendToolbarItem(new UI.Toolbar.ToolbarSettingToggle(
-        this.showSettingsPaneSetting, 'gear', i18nString(UIStrings.networkSettings), 'gear-filled'));
+    // const networkConditionsIcon = new IconButton.Icon.Icon();
+    // networkConditionsIcon.data = {
+    //   iconName: 'network-settings',
+    //   color: 'var(--icon-default)',
+    //   width: '20px',
+    //   height: '20px',
+    // };
+    // const networkConditionsButton =
+    //     new UI.Toolbar.ToolbarButton(i18nString(UIStrings.moreNetworkConditions), networkConditionsIcon);
+    // networkConditionsButton.addEventListener(UI.Toolbar.ToolbarButton.Events.Click, () => {
+    //   void UI.ViewManager.ViewManager.instance().showView('network.config');
+    // }, this);
+    // this.panelToolbar.appendToolbarItem(networkConditionsButton);
+
+    // this.rightToolbar.appendToolbarItem(new UI.Toolbar.ToolbarItem(this.progressBarContainer));
+    // this.rightToolbar.appendSeparator();
+    // this.rightToolbar.appendToolbarItem(new UI.Toolbar.ToolbarSettingToggle(
+    //     this.showSettingsPaneSetting, 'gear', i18nString(UIStrings.networkSettings), 'gear-filled'));
 
     const settingsToolbarLeft = new UI.Toolbar.Toolbar('', this.settingsPane.element);
     settingsToolbarLeft.makeVertical();
