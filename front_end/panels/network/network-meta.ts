@@ -4,6 +4,7 @@
 
 import * as Common from '../../core/common/common.js';
 import * as i18n from '../../core/i18n/i18n.js';
+import * as Root from '../../core/root/root.js';
 import * as SDK from '../../core/sdk/sdk.js';
 import * as Workspace from '../../models/workspace/workspace.js';
 import * as NetworkForward from '../../panels/network/forward/forward.js';
@@ -137,56 +138,57 @@ UI.ViewManager.registerViewExtension({
   commandPrompt: i18nLazyString(UIStrings.showNetwork),
   title: i18nLazyString(UIStrings.network),
   order: 40,
+  condition: Root.Runtime.ConditionName.REACT_NATIVE_UNSTABLE_NETWORK_PANEL,
   async loadView() {
     const Network = await loadNetworkModule();
     return Network.NetworkPanel.NetworkPanel.instance();
   },
 });
 
-UI.ViewManager.registerViewExtension({
-  location: UI.ViewManager.ViewLocationValues.DRAWER_VIEW,
-  id: 'network.blocked-urls',
-  commandPrompt: i18nLazyString(UIStrings.showNetworkRequestBlocking),
-  title: i18nLazyString(UIStrings.networkRequestBlocking),
-  persistence: UI.ViewManager.ViewPersistence.CLOSEABLE,
-  order: 60,
-  async loadView() {
-    const Network = await loadNetworkModule();
-    return Network.BlockedURLsPane.BlockedURLsPane.instance();
-  },
-});
+// UI.ViewManager.registerViewExtension({
+//   location: UI.ViewManager.ViewLocationValues.DRAWER_VIEW,
+//   id: 'network.blocked-urls',
+//   commandPrompt: i18nLazyString(UIStrings.showNetworkRequestBlocking),
+//   title: i18nLazyString(UIStrings.networkRequestBlocking),
+//   persistence: UI.ViewManager.ViewPersistence.CLOSEABLE,
+//   order: 60,
+//   async loadView() {
+//     const Network = await loadNetworkModule();
+//     return Network.BlockedURLsPane.BlockedURLsPane.instance();
+//   },
+// });
 
-UI.ViewManager.registerViewExtension({
-  location: UI.ViewManager.ViewLocationValues.DRAWER_VIEW,
-  id: 'network.config',
-  commandPrompt: i18nLazyString(UIStrings.showNetworkConditions),
-  title: i18nLazyString(UIStrings.networkConditions),
-  persistence: UI.ViewManager.ViewPersistence.CLOSEABLE,
-  order: 40,
-  tags: [
-    i18nLazyString(UIStrings.diskCache),
-    i18nLazyString(UIStrings.networkThrottling),
-    i18n.i18n.lockedLazyString('useragent'),
-    i18n.i18n.lockedLazyString('user agent'),
-    i18n.i18n.lockedLazyString('user-agent'),
-  ],
-  async loadView() {
-    const Network = await loadNetworkModule();
-    return Network.NetworkConfigView.NetworkConfigView.instance();
-  },
-});
+// UI.ViewManager.registerViewExtension({
+//   location: UI.ViewManager.ViewLocationValues.DRAWER_VIEW,
+//   id: 'network.config',
+//   commandPrompt: i18nLazyString(UIStrings.showNetworkConditions),
+//   title: i18nLazyString(UIStrings.networkConditions),
+//   persistence: UI.ViewManager.ViewPersistence.CLOSEABLE,
+//   order: 40,
+//   tags: [
+//     i18nLazyString(UIStrings.diskCache),
+//     i18nLazyString(UIStrings.networkThrottling),
+//     i18n.i18n.lockedLazyString('useragent'),
+//     i18n.i18n.lockedLazyString('user agent'),
+//     i18n.i18n.lockedLazyString('user-agent'),
+//   ],
+//   async loadView() {
+//     const Network = await loadNetworkModule();
+//     return Network.NetworkConfigView.NetworkConfigView.instance();
+//   },
+// });
 
-UI.ViewManager.registerViewExtension({
-  location: UI.ViewManager.ViewLocationValues.NETWORK_SIDEBAR,
-  id: 'network.search-network-tab',
-  commandPrompt: i18nLazyString(UIStrings.showSearch),
-  title: i18nLazyString(UIStrings.search),
-  persistence: UI.ViewManager.ViewPersistence.PERMANENT,
-  async loadView() {
-    const Network = await loadNetworkModule();
-    return Network.NetworkPanel.SearchNetworkView.instance();
-  },
-});
+// UI.ViewManager.registerViewExtension({
+//   location: UI.ViewManager.ViewLocationValues.NETWORK_SIDEBAR,
+//   id: 'network.search-network-tab',
+//   commandPrompt: i18nLazyString(UIStrings.showSearch),
+//   title: i18nLazyString(UIStrings.search),
+//   persistence: UI.ViewManager.ViewPersistence.PERMANENT,
+//   async loadView() {
+//     const Network = await loadNetworkModule();
+//     return Network.NetworkPanel.SearchNetworkView.instance();
+//   },
+// });
 
 UI.ActionRegistration.registerActionExtension({
   actionId: 'network.toggle-recording',
@@ -247,54 +249,54 @@ UI.ActionRegistration.registerActionExtension({
   ],
 });
 
-UI.ActionRegistration.registerActionExtension({
-  actionId: 'network.hide-request-details',
-  category: UI.ActionRegistration.ActionCategory.NETWORK,
-  title: i18nLazyString(UIStrings.hideRequestDetails),
-  contextTypes() {
-    return maybeRetrieveContextTypes(Network => [Network.NetworkPanel.NetworkPanel]);
-  },
-  async loadActionDelegate() {
-    const Network = await loadNetworkModule();
-    return Network.NetworkPanel.ActionDelegate.instance();
-  },
-  bindings: [
-    {
-      shortcut: 'Esc',
-    },
-  ],
-});
+// UI.ActionRegistration.registerActionExtension({
+//   actionId: 'network.hide-request-details',
+//   category: UI.ActionRegistration.ActionCategory.NETWORK,
+//   title: i18nLazyString(UIStrings.hideRequestDetails),
+//   contextTypes() {
+//     return maybeRetrieveContextTypes(Network => [Network.NetworkPanel.NetworkPanel]);
+//   },
+//   async loadActionDelegate() {
+//     const Network = await loadNetworkModule();
+//     return Network.NetworkPanel.ActionDelegate.instance();
+//   },
+//   bindings: [
+//     {
+//       shortcut: 'Esc',
+//     },
+//   ],
+// });
 
-UI.ActionRegistration.registerActionExtension({
-  actionId: 'network.search',
-  category: UI.ActionRegistration.ActionCategory.NETWORK,
-  title: i18nLazyString(UIStrings.search),
-  contextTypes() {
-    return maybeRetrieveContextTypes(Network => [Network.NetworkPanel.NetworkPanel]);
-  },
-  async loadActionDelegate() {
-    const Network = await loadNetworkModule();
-    return Network.NetworkPanel.ActionDelegate.instance();
-  },
-  bindings: [
-    {
-      platform: UI.ActionRegistration.Platforms.Mac,
-      shortcut: 'Meta+F',
-      keybindSets: [
-        UI.ActionRegistration.KeybindSet.DEVTOOLS_DEFAULT,
-        UI.ActionRegistration.KeybindSet.VS_CODE,
-      ],
-    },
-    {
-      platform: UI.ActionRegistration.Platforms.WindowsLinux,
-      shortcut: 'Ctrl+F',
-      keybindSets: [
-        UI.ActionRegistration.KeybindSet.DEVTOOLS_DEFAULT,
-        UI.ActionRegistration.KeybindSet.VS_CODE,
-      ],
-    },
-  ],
-});
+// UI.ActionRegistration.registerActionExtension({
+//   actionId: 'network.search',
+//   category: UI.ActionRegistration.ActionCategory.NETWORK,
+//   title: i18nLazyString(UIStrings.search),
+//   contextTypes() {
+//     return maybeRetrieveContextTypes(Network => [Network.NetworkPanel.NetworkPanel]);
+//   },
+//   async loadActionDelegate() {
+//     const Network = await loadNetworkModule();
+//     return Network.NetworkPanel.ActionDelegate.instance();
+//   },
+//   bindings: [
+//     {
+//       platform: UI.ActionRegistration.Platforms.Mac,
+//       shortcut: 'Meta+F',
+//       keybindSets: [
+//         UI.ActionRegistration.KeybindSet.DEVTOOLS_DEFAULT,
+//         UI.ActionRegistration.KeybindSet.VS_CODE,
+//       ],
+//     },
+//     {
+//       platform: UI.ActionRegistration.Platforms.WindowsLinux,
+//       shortcut: 'Ctrl+F',
+//       keybindSets: [
+//         UI.ActionRegistration.KeybindSet.DEVTOOLS_DEFAULT,
+//         UI.ActionRegistration.KeybindSet.VS_CODE,
+//       ],
+//     },
+//   ],
+// });
 
 Common.Settings.registerSettingExtension({
   category: Common.Settings.SettingCategory.NETWORK,
@@ -343,74 +345,74 @@ Common.Settings.registerSettingExtension({
   ],
 });
 
-UI.ViewManager.registerLocationResolver({
-  name: UI.ViewManager.ViewLocationValues.NETWORK_SIDEBAR,
-  category: UI.ViewManager.ViewLocationCategory.NETWORK,
-  async loadResolver() {
-    const Network = await loadNetworkModule();
-    return Network.NetworkPanel.NetworkPanel.instance();
-  },
-});
+// UI.ViewManager.registerLocationResolver({
+//   name: UI.ViewManager.ViewLocationValues.NETWORK_SIDEBAR,
+//   category: UI.ViewManager.ViewLocationCategory.NETWORK,
+//   async loadResolver() {
+//     const Network = await loadNetworkModule();
+//     return Network.NetworkPanel.NetworkPanel.instance();
+//   },
+// });
 
-UI.ContextMenu.registerProvider({
-  contextTypes() {
-    return [
-      SDK.NetworkRequest.NetworkRequest,
-      SDK.Resource.Resource,
-      Workspace.UISourceCode.UISourceCode,
-    ];
-  },
-  async loadProvider() {
-    const Network = await loadNetworkModule();
-    return Network.NetworkPanel.ContextMenuProvider.instance();
-  },
-  experiment: undefined,
-});
+// UI.ContextMenu.registerProvider({
+//   contextTypes() {
+//     return [
+//       SDK.NetworkRequest.NetworkRequest,
+//       SDK.Resource.Resource,
+//       Workspace.UISourceCode.UISourceCode,
+//     ];
+//   },
+//   async loadProvider() {
+//     const Network = await loadNetworkModule();
+//     return Network.NetworkPanel.ContextMenuProvider.instance();
+//   },
+//   experiment: undefined,
+// });
 
-Common.Revealer.registerRevealer({
-  contextTypes() {
-    return [
-      SDK.NetworkRequest.NetworkRequest,
-    ];
-  },
-  destination: Common.Revealer.RevealerDestination.NETWORK_PANEL,
-  async loadRevealer() {
-    const Network = await loadNetworkModule();
-    return Network.NetworkPanel.RequestRevealer.instance();
-  },
-});
+// Common.Revealer.registerRevealer({
+//   contextTypes() {
+//     return [
+//       SDK.NetworkRequest.NetworkRequest,
+//     ];
+//   },
+//   destination: Common.Revealer.RevealerDestination.NETWORK_PANEL,
+//   async loadRevealer() {
+//     const Network = await loadNetworkModule();
+//     return Network.NetworkPanel.RequestRevealer.instance();
+//   },
+// });
 
-Common.Revealer.registerRevealer({
-  contextTypes() {
-    return [NetworkForward.UIRequestLocation.UIRequestLocation];
-  },
-  async loadRevealer() {
-    const Network = await loadNetworkModule();
-    return Network.NetworkPanel.RequestLocationRevealer.instance();
-  },
-  destination: undefined,
-});
+// Common.Revealer.registerRevealer({
+//   contextTypes() {
+//     return [NetworkForward.UIRequestLocation.UIRequestLocation];
+//   },
+//   async loadRevealer() {
+//     const Network = await loadNetworkModule();
+//     return Network.NetworkPanel.RequestLocationRevealer.instance();
+//   },
+//   destination: undefined,
+// });
 
-Common.Revealer.registerRevealer({
-  contextTypes() {
-    return [NetworkForward.NetworkRequestId.NetworkRequestId];
-  },
-  destination: Common.Revealer.RevealerDestination.NETWORK_PANEL,
-  async loadRevealer() {
-    const Network = await loadNetworkModule();
-    return Network.NetworkPanel.RequestIdRevealer.instance();
-  },
-});
+// Common.Revealer.registerRevealer({
+//   contextTypes() {
+//     return [NetworkForward.NetworkRequestId.NetworkRequestId];
+//   },
+//   destination: Common.Revealer.RevealerDestination.NETWORK_PANEL,
+//   async loadRevealer() {
+//     const Network = await loadNetworkModule();
+//     return Network.NetworkPanel.RequestIdRevealer.instance();
+//   },
+// });
 
-Common.Revealer.registerRevealer({
-  contextTypes() {
-    return [
-      NetworkForward.UIFilter.UIRequestFilter,
-    ];
-  },
-  destination: Common.Revealer.RevealerDestination.NETWORK_PANEL,
-  async loadRevealer() {
-    const Network = await loadNetworkModule();
-    return Network.NetworkPanel.NetworkLogWithFilterRevealer.instance();
-  },
-});
+// Common.Revealer.registerRevealer({
+//   contextTypes() {
+//     return [
+//       NetworkForward.UIFilter.UIRequestFilter,
+//     ];
+//   },
+//   destination: Common.Revealer.RevealerDestination.NETWORK_PANEL,
+//   async loadRevealer() {
+//     const Network = await loadNetworkModule();
+//     return Network.NetworkPanel.NetworkLogWithFilterRevealer.instance();
+//   },
+// });
